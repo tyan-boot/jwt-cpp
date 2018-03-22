@@ -3,8 +3,9 @@
 #include <openssl/pem.h>
 #include <openssl/hmac.h>
 
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
-// ssl < 1.1
+#if OPENSSL_VERSION_NUMBER < 0x10100000L || (defined(LIBRESSL_VERSION_NUMBER) && LIBRESSL_VERSION_NUMBER < 0x2070000fL)
+// ssl < 1.1 and libressl < 2.7.0
+// libresl add HMAC_CTX_new, etc in 2.7.0.
 class EvpMdCtx {
  public:
   EvpMdCtx() { EVP_MD_CTX_init(&ctx_); }
